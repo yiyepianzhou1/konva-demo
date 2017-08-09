@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		body{
+			margin: 0px;
+			padding: 0px;
+		}
+	</style>
+	<script src="js/konva.js"></script>
+</head>
+<body>
+	<div id="demo"></div>
+</body>
+</html>
+	<script src="js/rotate.js"></script>
+<script>
+	//创建舞台
+	var stage = new Konva.Stage({
+		container:'demo',
+		width:window.innerWidth,
+		height:window.innerHeight,
+	})
+	var layer = new Konva.Layer();
+	stage.add(layer);
+
+	var cenX = stage.width()/2;
+	var cenY = stage.height()/2;
+	var innerradius = 259/2;
+	var outerradius = 446/2;
+	// console.log(cenY)
+	var circle1 = new Konva.Circle({
+		x:cenX,
+		y:cenY,
+		radius:innerradius,
+		dash:[10,4],
+		opacity:.8,
+		stroke:"#999"
+	})
+	layer.add(circle1);
+	circle1.draw();
+	var circle2 = new Konva.Circle({
+		x:cenX,
+		y:cenY,
+		radius:outerradius,
+		dash:[10,4],
+		opacity:.8,
+		stroke:"#999"
+	})
+layer.add(circle2);
+circle2.draw();
+
+var rotate_0 = new rotate({
+	x:cenX,
+	y:cenY,
+	innerRadius:134/2,
+	outerRadius:181/2,
+	text:'WEB全栈',
+	fill:"#525A82",
+	fillOut:"#999",
+   opacity:.8
+});
+
+ rotate_0.addgroup(layer);
+ layer.draw();
+
+
+	 var x0 = Math.cos(Math.PI*-60/180)*innerradius;
+	 var y0 = Math.sin(Math.PI*-60/180)*innerradius;
+	 var r0 = 60/2
+
+
+var layer_01 = new Konva.Layer()
+stage.add(layer_01);
+
+
+var group_01 = new Konva.Group({
+	 	x:cenX,
+	 	y:cenY,
+	 })
+var rotate_01 = new rotate({
+	name:'demo',
+	x:Math.cos(Math.PI*-60/180)*innerradius,
+	y:Math.sin(Math.PI*-60/180)*innerradius,
+	outerRadius:80/2,
+	innerRadius:60/2,
+	text:'HTML5',
+	fill:"#FCB430",
+	fillOut:'#999',
+	opacity:.8
+})
+
+var rotate_02 = new rotate({
+	name:'demo',
+	x:Math.cos(Math.PI*90/180)*innerradius,
+	y:Math.sin(Math.PI*90/180)*innerradius,
+	outerRadius:90/2,
+	innerRadius:70/2,
+	text:'js',
+	fill:'#FCA',
+	opacity:.8,
+   fillOut:'#999'
+})
+rotate_02.addgroup(group_01);
+rotate_01.addgroup(group_01);
+layer_01.add(group_01);
+
+
+//第三层圆
+var group_02 = new Konva.Group({
+	x:cenX,
+	y:cenY,
+})
+
+var rotate_03 = new rotate({
+	name:'demo1',
+	x:Math.cos(Math.PI*-80/180)*outerradius,
+	y:Math.sin(Math.PI*-80/180)*outerradius,
+	innerRadius:90/2,
+	outerRadius:110/2,
+   text:'Vue.js',
+   opacity:.8,
+   fill:'#abd',
+   fillOut:'#999'
+})
+rotate_03.addgroup(group_02);
+layer_01.add(group_02);
+var ange = 60
+var rotate = new Konva.Animation(function(frame){
+	 //frame.timeDiff当前执行动画的帧与上次执行动画帧的差值
+
+	var Anges = ange*frame.timeDiff/1000
+	group_01.rotate(Anges)
+	group_01.find('.demo').rotate(-Anges)
+	group_02.rotate(-Anges)
+	group_02.find('.demo1').rotate(Anges)
+
+},layer_01)
+
+layer_01.on('mouseover',function(){
+	ange = 10;
+})
+layer_01.on('mouseout',function(){
+	ange = 60
+})
+rotate.start()
+stage.draw();
+</script>
